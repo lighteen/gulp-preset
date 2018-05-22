@@ -50,23 +50,30 @@ gulp.task('js', () => {
     .pipe(connect.reload());
 });
 
-gulp.task('audio', () => {
-  gulp.src('app/assets/audio/*')
-    .pipe(gulp.dest('public/assets/audio/'))
-});
 
-gulp.task('vendor', () => {
-  gulp.src(['node_modules/pixi.js/dist/pixi.min.js'])
-    .pipe(concat('vendor.js'))
-    .pipe(gulp.dest('public/assets/js'));
-});
+// Uncomment this here and in 'watch' task to add audio files support
+
+// gulp.task('audio', () => {
+//   gulp.src('app/assets/audio/*')
+//     .pipe(gulp.dest('public/assets/audio/'))
+// });
+
+
+// Uncomment this here and in 'build' task to concatenate javascript libraries in one file
+// (all sources should be written in "gulp.src['']" as array)
+
+// gulp.task('vendor', () => {
+//   gulp.src([''])
+//     .pipe(concat('vendor.js'))
+//     .pipe(gulp.dest('public/assets/js'));
+// });
 
 gulp.task('watch', () => {
   gulp.watch('app/*.pug', ['pug']);
   gulp.watch('app/assets/sass/*.sass', ['sass']);
   gulp.watch('app/assets/images/**/*', ['images']);
   gulp.watch('app/assets/js/*.js', ['js']);
-  gulp.watch('app/assets/audio/*', ['audio']);
+  // gulp.watch('app/assets/audio/*', ['audio']); // audio support
 });
 
 
@@ -80,6 +87,13 @@ gulp.task('connect', function() {
 
 gulp.task('default', ['connect', 'watch']);
 
-gulp.task('build_public', () => {
-  gulp.start('pug', 'sass', 'images', 'js', 'vendor', 'audio');
+gulp.task('build', () => {
+  gulp.start(
+    'pug',
+    'sass',
+    'images',
+    'js',
+    // 'audio', // audio support
+    // 'vendor' // vendor support
+  );
 });
