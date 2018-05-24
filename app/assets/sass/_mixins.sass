@@ -1,0 +1,36 @@
+@mixin scrollbar($background-color)
+  &::-webkit-scrollbar
+    width: 6px
+    height: 6px
+    background-color: transparent
+
+  &::-webkit-scrollbar-thumb
+    background-color: $background-color
+    border-radius: 3px
+
+@mixin placeholder($color, $font-size)
+  &::-webkit-input-placeholder
+    color: $color
+    font-size: $font-size
+
+  &::-moz-placeholder
+    color: $color
+    font-size: $font-size
+
+  &:-ms-input-placeholder
+    color: $color
+    font-size: $font-size
+
+  &:-moz-placeholder
+    color: $color
+    font-size: $font-size
+
+@mixin lineClamp($lines, $fontSize, $lineHeight)
+  max-height: $lines * $fontSize * $lineHeight + px
+  display: -webkit-box
+  font-size: $fontSize + px
+  -webkit-line-clamp: $lines
+  -webkit-box-orient: vertical
+  text-overflow: ellipsis
+  overflow: hidden
+  line-height: $lineHeight

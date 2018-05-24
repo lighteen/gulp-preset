@@ -3,6 +3,7 @@ const gulp = require('gulp'),
       pug = require('gulp-pug'),
       minifyHTML = require('gulp-htmlmin'),
       sass = require('gulp-sass'),
+      autoprefixer = require('gulp-autoprefixer'),
       cleanCSS = require('gulp-clean-css'),
       imagemin = require('gulp-imagemin'),
       babel = require('gulp-babel'),
@@ -28,6 +29,10 @@ gulp.task('sass', () => {
   gulp.src('app/assets/sass/main.sass')
     .pipe(plumber())
     .pipe(sass().on('error', sass.logError))
+    .pipe(autoprefixer({
+      browsers: ['last 2 versions'],
+      cascade: false
+    }))
     .pipe(cleanCSS())
     .pipe(gulp.dest('public/assets/css'))
     .pipe(connect.reload());
@@ -50,30 +55,27 @@ gulp.task('js', () => {
     .pipe(connect.reload());
 });
 
+gulp.task('fonts', () => {
+  gulp.src('app/assets/fonts/**/*')
+    .pipe(gulp.dest('public/assets/fonts'));
+});
 
-// Uncomment this here and in 'watch' task to add audio files support
-
-// gulp.task('audio', () => {
-//   gulp.src('app/assets/audio/*')
-//     .pipe(gulp.dest('public/assets/audio/'))
-// });
-
-
-// Uncomment this here and in 'build' task to concatenate javascript libraries in one file
-// (all sources should be written in "gulp.src['']" as array)
-
-// gulp.task('vendor', () => {
-//   gulp.src([''])
-//     .pipe(concat('vendor.js'))
-//     .pipe(gulp.dest('public/assets/js'));
-// });
+gulp.task('vendor', () => {
+  gulp.src([''])
+    .pipe(concat('vendor.js'))
+    .pipe(gulp.dest('public/assets/js'));
+  gulp.src(['node_modules/normalize.css/normalize.css'])
+    .pipe(concat('vendor.css'))
+    .pipe(cleanCSS())
+    .pipe(gulp.dest('public/assets/css'))
+});
 
 gulp.task('watch', () => {
   gulp.watch('app/*.pug', ['pug']);
   gulp.watch('app/assets/sass/*.sass', ['sass']);
   gulp.watch('app/assets/images/**/*', ['images']);
   gulp.watch('app/assets/js/*.js', ['js']);
-  // gulp.watch('app/assets/audio/*', ['audio']); // audio support
+  gulp.watch('app/assets/fonts/**/*', ['fonts']);
 });
 
 
@@ -93,7 +95,7 @@ gulp.task('build', () => {
     'sass',
     'images',
     'js',
-    // 'audio', // audio support
-    // 'vendor' // vendor support
+    'fonts',
+    'vendor'
   );
 });
