@@ -1,15 +1,18 @@
-## Usage
-
-Installation:
+## Installation
 
 ```sh
+
+Clone all files into your project folder
+
+Delete .git folder
+
 npm i
 
 gulp build
 
 ```
 
-## Development
+## Usage
 
 ```sh
 npm start
